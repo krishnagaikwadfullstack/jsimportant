@@ -1,0 +1,12 @@
+ const elementselector = document.querySelector("#copy_script");
+        elementselector.onclick = function() {
+          document.execCommand("copy");
+        }
+
+        elementselector.addEventListener("copy", function(event) {
+          event.preventDefault();
+          if (event.clipboardData) {
+            event.clipboardData.setData("text/plain", elementselector.textContent);
+            console.log(event.clipboardData.getData("text"))
+          }
+        });
