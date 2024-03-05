@@ -1,0 +1,22 @@
+const nativeFetch = window.fetch;
+var arr_param = ["/cart.json","/cart.js","/update.js","/change.js","/cart/change","/cart/add"];
+window.fetch = function(...args) {
+  if($.inArray( args[0], arr_param) != -1){
+      console.log('do your custom functionality here')
+  }
+  return nativeFetch.apply(window, args);
+}
+// Or using below code same result
+window.fetch = new Proxy(window.fetch, {
+  apply(fetch, that, args) {
+    const result = fetch.apply(that, args);    
+    result.then((response) => {
+      if(response.url.includes("/cart"))
+      {
+        console.log("specific url call trigger");
+      }     
+    });
+    // Return the resulting Promise
+    return result;
+  }
+});
